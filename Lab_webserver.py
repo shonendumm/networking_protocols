@@ -15,7 +15,8 @@ while True:
     try:
         message = connectionSocket.recv(1024).decode()
         print(f"Received {message}")
-        filename = message.split()[1]
+        filename = message.split()[1] # split 'GET /helloworld.html'
+
         print(f"looking for {filename}")
         with open(filename[1:], 'r') as f: # omit the / in /helloworld.html
             outputdata = f.read()
@@ -25,6 +26,7 @@ while True:
         connectionSocket.send("Content-Type: text/html\r\n".encode())
         connectionSocket.send("\r\n".encode())
 
+        # Encode and send the html data
         for i in range(len(outputdata)):
             connectionSocket.send(outputdata[i].encode())
         connectionSocket.send("\r\n".encode())
